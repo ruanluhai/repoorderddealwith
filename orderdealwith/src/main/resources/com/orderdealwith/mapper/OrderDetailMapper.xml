@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.orderdealwith.mapper.OrderDetailMapper">
+    <resultMap id="OrderResult" type="com.orderdealwith.pojo.OrderInformation">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="orderDescribe" column="order_describle"/>
+        <result property="orderStatus" column="order_status"/>
+
+    </resultMap>
+
+<select id="findOrderDetail" resultMap="OrderResult" parameterType="java.util.Map">
+    select order_id, order_time,order_describle ,order_status
+    from order_detail
+    where
+    1 = 1
+    <if test="orderId != null and orderId != ''">
+        and order_id =#{orderId}
+    </if>
+</select>
+
+</mapper>

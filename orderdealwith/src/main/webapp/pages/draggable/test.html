@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轨迹回放demo</title>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" display="none"></svg>
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+</head>
+<body>
+<button id="huifang">轨迹回放</button>
+<svg  height="300px" width="100%" style="margin-left: 300px;margin-top: 100px;" >
+    <defs>
+        <linearGradient x1="0%" y1="100%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#2090F8" offset="0%" stop-opacity="1"></stop>
+            <stop stop-color="#01FCE4" offset="41.7610013%" stop-opacity="0.7"></stop>
+            <stop stop-color="#0BFF8C" offset="78.6870217%" stop-opacity="0.5"></stop>
+            <stop stop-color="#51FF00" offset="100%" stop-opacity="0.3"></stop>
+        </linearGradient>
+    </defs>
+    <polyline id="poy1" points="0 0,0 20"  style="stroke:red;fill:none;stroke-width:5px;" />
+    <polyline id="poy" points="0 0" stroke="url(#linearGradient-1)"  style="fill:none;stroke-width:5px;" />
+</svg>
+</g>
+</svg>
+<button id="bid" style="color: aqua;font-size: 20px;margin: 0 auto;width: 800px;" >按钮</button>
+</body>
+</html>
+
+<script type="text/javascript">
+    var points = "";
+    //获取当前按钮标签对象
+    var bid = document.getElementById("bid");
+    bid.disabled=true;
+    var m=10;
+    var i = 0;
+    var haha = document.getElementById("haha")
+    var avg = document.getElementById("pointAVG")
+    var colorlist =
+        [
+            {"0":"#ccff00","1":"#ff00ff","2":"#99ff66","3":"#66ffff"},
+        {"0":"#2090F8","1":"#01FCE4","2":"#0BFF8C","3":"#51FF00"},
+            {"0":"#A0522D","1":"#F08080","2":"#FF6347","3":"#FF8C00"},
+            {"0":"#7FFF00","1":"#FF00FF","2":"#FFFF00","3":"#FFB6C1"},
+            {"0":"#808000","1":"#778899","2":"#696969","3":"#D3D3D3"},
+            {"0":"#4169E1","1":"#40E0D0","2":"#4682B4","3":"#00FF00"},
+            {"0":"#F4A460","1":"#FF4500","2":"#FF8C00","3":"#CD853F"},
+    ]
+    //按钮的点击事件处理函数
+//    function f() {
+//        fun();
+//    }
+//    function fun(){
+//        m--;
+//        bid.innerHTML="("+m+"秒)下一步";
+//        var list = [{"x":20,"y":50},{"x":20,"y":120},{"x":50,"y":120},{"x":80,"y":120},{"x":100,"y":120},{"x":100,"y":150},{"x":100,"y":220},{"x":130,"y":220},{"x":180,"y":220},];
+//        if(m>0){
+//            var cx = list[i].x;
+//            var cy = list[i].y;
+//            setTimeout("fun()",1000);
+//            avg.setAttribute("cx",cx)
+//            avg.setAttribute("cy",cy)
+//            if((cx == 20 && cy == 120) || (cx == 100 && cy == 120) ||(cx == 100 && cy == 220) ) {
+//                haha.setAttribute("fill","aqua")
+//            }
+//            else {
+//                haha.setAttribute("fill","green")
+//            }
+//            i++
+//        }else{
+//            bid.disabled=false; //解除禁用
+//        }
+//    }
+
+    //定时调用函数
+//    setTimeout("f()",1000); //1秒后调用fun函数
+
+
+    $("#huifang").click(function() {
+        changeColor();
+        var data = [{"xnode":20,'ynode':120},{"xnode":120,"ynode":130},{"xnode":200,"ynode":130},{"xnode":300,"ynode":120},{"xnode":400,"ynode":140},{"xnode":500,"ynode":145},{"xnode":600,"ynode":150},{"xnode":550,"ynode":120},{"xnode":710,"ynode":350},{"xnode":700,"ynode":180},{"xnode":900,"ynode":200},{"xnode":850,"ynode":400}];
+        abc(data);
+    })
+    var j = 0;
+
+    function changeColor() {
+        var num =Math.floor(Math.random() * (colorlist.length));
+        var colors = colorlist[num];
+        for(var  i = 0; i < 4; i++) {
+        $($('linearGradient stop')[i]).attr("stop-color",colors[i]);
+        }
+    }
+
+    function abc(pointdata) {
+        if (j < pointdata.length) {
+            if (points == "") {
+                points += pointdata[j].xnode + "," + pointdata[j].ynode;
+            } else {
+                points += " " + pointdata[j].xnode + "," + pointdata[j].ynode;
+            }
+            console.log(points)
+            $("#poy").attr("points",points);
+            setTimeout(function () {
+                abc(pointdata)
+            },100);
+            j++;
+        }
+
+    }
+
+</script>

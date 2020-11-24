@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>线条、图形颜色渐变动画</title>
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+    <script>
+        $(document).ready(function(){
+            changeCorlor();
+        });
+
+        function changeCorlor(){//控制circle颜色渐变属性
+            var svg = d3.select("body").select("svg");
+            //svg.select('#g1').attr("stop-color","yellow");
+
+            svg.select('#svg_4').append("animate").attr("attributeName","fill")//因为是填充色，所以用fill属性；如果渐变的是线条的颜色，就改成stroke属性
+                .attr('attributeType','XML')
+                .attr('from','green')
+                .attr('to','red')
+                .attr('dur','1s')
+                .attr('fill','freeze');
+        }
+
+        function changeColor2(){
+            //利用d3.js获取svg元素
+            var svg = d3.select("body").select("svg");
+            //svg.select('#g1').attr("stop-color","yellow");
+            //svg.select('#svg_4').remove("animate");
+            var animate = svg.select('#svg_4').append("animate");
+            animate.attr("attributeName","fill")
+                .attr('attributeType','XML')
+                .attr('from','green')
+                .attr('to','yellow')
+                .attr('dur','5s')   //秒数太小时看不出渐变的效果，不知道啥原因？？？而且渐变就第一次点击有效果，不知道为啥？？？
+                .attr('fill','freeze');
+        }
+    </script>
+</head>
+
+<body>
+<input type="button" value="changeColor" onClick="changeColor2()">
+<svg width="1920" height="5612" xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="lsvg_1">
+            <stop id="g1" offset="0%" stop-color="green">
+                <animate attributeName="stop-color" values="green; yellow;" dur="1s"  fill="freeze"/>
+            </stop>
+            <stop id="g1" offset="90%" stop-color="green">
+                <animate attributeName="stop-color" values="green; yellow;" dur="1s"  fill="freeze"/>
+            </stop>
+            <stop id="g2" offset="100%" stop-color="green">
+                <animate attributeName="stop-color" values="yellow;" dur="1s" fill="freeze"/>
+            </stop>
+        </linearGradient>
+
+    </defs>
+
+    <g>
+        <path id="svg_3" d="m100,102c0,0 60,49 80,46c20,-3 69,44 97,43c28,-1 117,-4 117,-4" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="url(#lsvg_1)" fill="none">
+        </path>
+
+        <!-- 线条颜色的渐变 -->
+        <animate attributeName="stroke" attributeType="XML" from="purple" to="red" begin="0s" dur="3s" fill="freeze"></animate>
+        </path>
+    </g>
+
+    <circle id="svg_4" cx="110" cy="320" r="100" stroke="">
+        <!-- 图形颜色渐变，这个效果同js中的效果是一样的 -->
+        <!--
+        <animate attributeName="fill" attributeType="XML" from="yellow" to="red" begin="0s" dur="3s" fill="freeze"></animate>
+        -->
+    </circle>
+
+    <!-- 任意不规则的封闭图形，填充色、外线条颜色都可以渐变 -->
+    <path d="m260,257.87201c71.28699,0.961 168.74301,-7.69301 170.548,0c1.80399,7.69299 30.67999,146.16599 0.90201,146.16599c-29.77802,0 -162.42599,0.96201 -162.42599,0.96201c0,0 -9.02402,-147.12799 -9.02402,-147.12799z" stroke="lightgreen" id="svg_1" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="lightgreen">
+        <animate attributeName="fill" attributeType="XML" from="lightgreen" to="red" begin="0s" dur="3s" fill="freeze"></animate>
+        <animate attributeName="stroke" attributeType="XML" from="lightgreen" to="yellow" begin="0s" dur="3s" fill="freeze"></animate>
+    </path>
+
+</svg>
+</body>
+</html>

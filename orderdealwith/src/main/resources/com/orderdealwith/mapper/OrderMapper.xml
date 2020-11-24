@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.orderdealwith.mapper.OrderMapper">
+    <resultMap id="OrderResult" type="com.orderdealwith.pojo.OrderInformation">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userAddress" column="user_address"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderDetailId" column="order_detail_id"/>
+        <result property="goodName" column="good_name"/>
+    </resultMap>
+
+<select id="findOrder" resultMap="OrderResult" parameterType="java.util.Map">
+    select user_name, user_address,good_name ,order_id
+    from order_information
+    where
+    1 = 1
+    <if test="orderId != null and orderId != ''">
+        and order_id like  CONCAT(CONCAT('%', #{orderId}), '%')
+    </if>
+    <if test="goodName != null and goodName != ''">
+        and good_name like  CONCAT(CONCAT('%', #{goodName}), '%')
+    </if>
+</select>
+
+    <insert id="insertExcel" parameterType="java.util.List" useGeneratedKeys="false">
+        insert into order_information
+        (order_id,user_name,user_address,user_id,order_detail_id,good_name)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            CONVERT(#{item.orderId}, UNSIGNED INTEGER),
+            #{item.userName,jdbcType=VARCHAR},
+            #{item.userAddress,jdbcType=VARCHAR},
+            CONVERT(#{item.userId,jdbcType=VARCHAR}, UNSIGNED INTEGER),
+            #{item.orderDetailId,jdbcType=VARCHAR},
+            #{item.goodName,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>快递单号查询</title>
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+
+<div style="width:230px;background:#E0ECFF;padding:10px;">
+    <form id="ff" action="" method="post">
+        <table>
+            <tr>
+                <td>单号:</td>
+                <td><input id = "orderId" name="oname" type="text"></input></td>
+            </tr>
+            <tr>
+                <td>商品名:</td>
+                <td><input id = "goodName" name="ogoodname" type="text"></input></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input id="btn" type="button" value="Submit"></input></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input id="detail" type="button" value="详情"></input></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<table id="userList" style="width: 288px;height:20px;" title="快递信息" border="2">
+    <tr>
+        <th  width="100px;">收件人</th>
+        <th  width="100px;">商品名称</th>
+        <th  width="100px;">订单编号</th>
+        <th  align="center" width="100px;">收件地址</th>
+    </tr>
+</table>
+</table>
+<table id="aa" style="width: 300px;height:200px;"><table/>
+<table id="orderdetail" style="width: 288px;height:20px;" title="快递详情" border="2">
+    <tr>
+        <th  width="100px;">订单编号</th>
+        <th  width="100px;">订单时间</th>
+        <th  width="100px;">订单描述</th>
+        <th  width="100px;">订单状态</th>
+        <th  align="center" width="100px;">收件地址</th>
+    </tr>
+</table>
+</table>
+
+
+
+
+</body>
+</html>
+<script type="text/javascript">
+    var oBtn = document.getElementById('btn');
+    oBtn.onclick = function() {
+        var html = "";
+        $(".ordertr").remove()
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8081/findOrder",
+            data: {
+            orderId:$("#orderId").val(),
+                goodName : $("#goodName").val()
+            },
+            dataType: "JSON",
+            success: function(result) {
+                for(var k in result){
+                    var order = result[k];
+                    html += " <tr class='ordertr'>\n" +
+                        "        <td  width=\"100px;\">" +order.userName + "</td>\n" +
+                        "        <td  width=\"100px;\">" +order.goodName + "</td>\n" +
+                        "        <td  width=\"100px;\">" +order.orderId + "</td>\n" +
+                        "        <td  align=\"center\" width=\"100px;\">"+order.userAddress + "</td>\n" +
+                        "    </tr>";
+                }
+                $("#userList").append(html)
+            }
+        });
+    }
+
+</script>
